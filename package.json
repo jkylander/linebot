@@ -1,0 +1,15 @@
+{
+  "name": "linebot",
+  "module": "bot.ts",
+  "type": "module",
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "discord.js": "^14.13.0",
+    "eslint": "^8.50.0"
+  }
+}
