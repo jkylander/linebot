@@ -13,7 +13,15 @@ DISCORD_TOKEN=NzkyNzE1NDU0MTk2MDg4ODQy.X-hvzA.Ovy4MCQywSkoMRRclStW4xAYK7I
 
 ## Installing and running
 ```
-bun install
-bun run bot.ts
+git clone https://github.com/jkylander/linebot
+cd linebot
 ```
-
+Inside the linebot folder, install `pipenv` and the required packages with:
+```
+python -m pip install pipenv
+python -m pipenv install --python 3.10
+```
+After installing, you can run the bot with
+```
+python -m pipenv run bot
+```

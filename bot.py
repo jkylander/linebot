@@ -18,7 +18,7 @@ Returns:
 """
 def match_url(url: str) -> dict:
     match = re.match(r"^(http|https://)?github.com/([^/]+)/([^/]+)/blob/(\w+)(/[^#]+)#(.+)", url)
-    print(match)
+
     if match:
         data = {}
         data["owner"] = match.group(2)
@@ -48,8 +48,6 @@ class MyClient(discord.Client):
 
         for url in extractor.find_urls(message.content):
             match = match_url(url)
-            print(f"Url: {url}")
-            print(f"Match: {match}")
             if match:
                 response = requests.get(match['api_url'])
                 data = response.json()
@@ -58,6 +56,7 @@ class MyClient(discord.Client):
                 joined_lines = '\n'.join(decoded_content[int(match['line_numbers'][0]):int(match['line_numbers'][1])])
                 # strip trailing and ending whitespace
                 joined_lines = '\n'.join([line.strip() for line in joined_lines.splitlines()])
+
                 reply = f"""```{match['filetype']}
 {joined_lines}
     ```"""
