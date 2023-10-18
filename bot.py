@@ -17,9 +17,9 @@ Returns:
     dict of the parsed data if there is a match, otherwise None
 """
 def match_url(url: str) -> dict:
-    match = re.match(r"^(http|https://)?github.com/([^/]+)/([^/]+)/blob/(\w+)(/[^#]+)#(.+)", url)
+    github_match = re.match(r"^(http|https://)?github.com/([^/]+)/([^/]+)/blob/(\w+)(/[^#]+)#(.+)", url)
 
-    if match:
+    if github_match:
         data = {}
         data["owner"] = match.group(2)
         data["repo"] = match.group(3)
@@ -45,7 +45,6 @@ class MyClient(discord.Client):
             return
         print(message.content)
         
-
         for url in extractor.find_urls(message.content):
             match = match_url(url)
             if match:
@@ -58,8 +57,7 @@ class MyClient(discord.Client):
                 joined_lines = '\n'.join([line.strip() for line in joined_lines.splitlines()])
 
                 reply = f"""```{match['filetype']}
-{joined_lines}
-    ```"""
+{joined_lines}```"""
                 await message.reply(reply, mention_author=False)
 
 client = MyClient(intents=intents)
