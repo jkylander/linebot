@@ -7,13 +7,14 @@ It analyzes the URL using regex and replies with a markdown code block, with the
 
 ## Usage
 
-Post any github link to a file, with the line numbers at the end like this:
+Post any GitHub or GitLab link to a file, with the line numbers at the end like this:
 
 `https://github.com/jkylander/linebot/blob/main/bot.py#L19-L20`
 
-(https://i.imgur.com/kpUeufD.png)
 
 The bot will try to read the language and use syntax highlighting. The repository must be public.
+
+(https://i.imgur.com/kpUeufD.png)
 
 ## Installing
 ```
