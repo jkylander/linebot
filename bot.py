@@ -1,5 +1,6 @@
 import os
 import discord, requests, re, base64
+import textwrap
 from dotenv import load_dotenv
 from urlextract import URLExtract
 load_dotenv('.env.local')
@@ -55,19 +56,18 @@ class MyClient(discord.Client):
         # we do not want the bot to reply to itself
         if message.author.id == self.user.id:
             return
-        print(message.content)
         
         for url in extractor.find_urls(message.content):
             match = match_url(url)
             if match:
                 response = requests.get(match['api_url'])
                 data = response.json()
-                print(f"Api url: {match['api_url']}, data: {data}, match: {match}")
+
                 content = data['content']
                 decoded_content = base64.b64decode(content).decode('utf-8').split('\n')
-                joined_lines = '\n'.join(decoded_content[int(match['line_numbers'][0]):int(match['line_numbers'][1])])
-                # strip trailing and ending whitespace
-                joined_lines = '\n'.join([line.strip() for line in joined_lines.splitlines()])
+                joined_lines = '\n'.join(decoded_content[int(match['line_numbers'][0])-1:int(match['line_numbers'][1])])
+                # fix indendation
+                joined_lines = textwrap.dedent(joined_lines)
 
                 reply = f"""```{match['filetype']}
 {joined_lines}```"""
