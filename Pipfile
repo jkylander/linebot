@@ -11,8 +11,5 @@ urlextract = "*"
 
 [dev-packages]
 
-[requires]
-python_version = "3.10"
-
 [scripts]
 bot = "python bot.py"

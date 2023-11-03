@@ -1,9 +1,9 @@
 # linebot
 Final project for CS50x
 
-Discord bot that grabs a URL and returns relevant code lines from GitHub as a code block message. 
+Discord bot that grabs a URL from da discord message and returns relevant code lines from GitHub/GitLab as a code block message. 
 
-It analyzes the URL using regex and replies with a markdown code block
+It analyzes the URL using regex and replies with a markdown code block, with the appropriate syntax highlighting
 
 ## Usage
 
@@ -11,7 +11,7 @@ Post any github link to a file, with the line numbers at the end like this:
 
 `https://github.com/jkylander/linebot/blob/main/bot.py#L19-L20`
 
-(https://i.imgur.com/GP5wpIy.png)
+(https://i.imgur.com/kpUeufD.png)
 
 The bot will try to read the language and use syntax highlighting. The repository must be public.
 
@@ -31,7 +31,7 @@ python -m pipenv install --python 3.10
 * Create a new Application
 * In the Bot tab, under `Privileged Gateway Intents`, the `Message Content Intent` must be enabled
 * Follow the [Official](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot) guide for more information
-* Make a `.env.local` file in the linebot directory and add the token like this (this token is invalidated):
+* Make a `.env` file in the linebot directory and add the token like this (this token is invalidated):
 ```
 DISCORD_TOKEN=NzkyNzE1NDU0MTk2MDg4ODQy.X-hvzA.Ovy4MCQywSkoMRRclStW4xAYK7I
 ```
@@ -40,3 +40,13 @@ After installing, you can run the bot with
 ```
 python -m pipenv run bot
 ```
+
+## Struggles/Issues
+
+Learning how Regex works was complicated for me. I'm sure my searches can be done in a cleaner way.
+
+## Future Development
+
+Adding more code repository websites. For now it only supports GitHub and GitLab.
+
+Learning how to properly use Regex instead of using mulitple matches

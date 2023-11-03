@@ -1,11 +1,14 @@
-import os
+import os, sys
 import discord, requests, re, base64
 import textwrap
 from dotenv import load_dotenv
 from urlextract import URLExtract
-load_dotenv('.env.local')
+load_dotenv()
 
 TOKEN = os.getenv('DISCORD_TOKEN')
+if TOKEN is None:
+    print("Error: Discord bot token not found. Set DISCORD_TOKEN in .env file")
+    sys(exit(1))
 intents = discord.Intents(messages=True, guilds=True)
 intents.message_content = True
 extractor = URLExtract()
