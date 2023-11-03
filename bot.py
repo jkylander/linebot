@@ -17,18 +17,30 @@ Returns:
     dict of the parsed data if there is a match, otherwise None
 """
 def match_url(url: str) -> dict:
-    github_match = re.match(r"^(http|https://)?github.com/([^/]+)/([^/]+)/blob/(\w+)(/[^#]+)#(.+)", url)
-
+    github_match = re.match(r"^(http://|https://)?github.com/(.+)/(.+)/blob/(.+)/(.+)#(.+)", url)
+    gitlab_match = re.match(r"^(http://|https://)?gitlab.com/(.+)/(.+)/(.+)/blob/(.+)/(.+)#(.+)", url)
     if github_match:
         data = {}
-        data["owner"] = match.group(2)
-        data["repo"] = match.group(3)
-        data['branch'] = match.group(4)
-        data["path"] = match.group(5)
-        data["content"] = match.group(6)
+        data["owner"] = github_match.group(2)
+        data["repo"] = github_match.group(3)
+        data['branch'] = github_match.group(4)
+        data["path"] = github_match.group(5)
+        data["content"] = github_match.group(6)
         data["line_numbers"] = re.findall(r"\d+", data['content'])
         data["filetype"] = re.search(r"\.(\w+)$", data['path']).group(1)
         data["api_url"] = f"https://api.github.com/repos/{data['owner']}/{data['repo']}/contents/{data['path']}"
+        return data
+    
+    if gitlab_match:
+        data = {}
+        data["owner"] = gitlab_match.group(2)
+        data["repo"] = gitlab_match.group(3)
+        data["branch"] = gitlab_match.group(5)
+        data["path"] = re.match(r"([^?]+)", gitlab_match.group(6)).group(1) #strip off anything after question mark
+        data["content"] = gitlab_match.group(7)
+        data["line_numbers"] = re.findall(r"\d+", data['content'])
+        data["filetype"] = re.search(r"\.(\w+)$", data['path']).group(1)
+        data["api_url"] = f"https://gitlab.com/api/v4/projects/{data['owner']}%2F{data['repo']}/repository/files/{data['path']}?ref={data['branch']}"
         return data
     return None
 
@@ -50,6 +62,7 @@ class MyClient(discord.Client):
             if match:
                 response = requests.get(match['api_url'])
                 data = response.json()
+                print(f"Api url: {match['api_url']}, data: {data}, match: {match}")
                 content = data['content']
                 decoded_content = base64.b64decode(content).decode('utf-8').split('\n')
                 joined_lines = '\n'.join(decoded_content[int(match['line_numbers'][0]):int(match['line_numbers'][1])])
