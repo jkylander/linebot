@@ -35,7 +35,7 @@ def match_url(url):
     match = re.match(gitlab_pattern, url)
     if match:
         data = match.groupdict()
-        data['api_url'] = f"https://gitlab.com/api/v4/projects/{data['user']}%2F{data['repo']}/src/{data['branch']}/{data['filepath']}"
+        data['api_url'] = f"https://gitlab.com/api/v4/projects/{data['user']}%2F{data['repo']}/repository/files/{data['filepath']}?ref={data['branch']}"
         data['filetype'] = data['filepath'].split('.')[-1]
         return data
 
@@ -61,25 +61,27 @@ class MyClient(discord.Client):
 
         for url in extractor.find_urls(message.content):
             match = match_url(url)
-            if match:
-                response = requests.get(match['api_url'])
-                if 'bitbucket' in match['api_url']:
-                    
-                    
-                    decoded_content = response.text.split('\n')
-                    
-                else:
-                    data = response.json()
-                    content = data['content']
-                    decoded_content = base64.b64decode(content).decode('utf-8').split('\n')
+            if not match:
+                return
+            response = requests.get(match['api_url'])
+            if 'bitbucket' in match['api_url']:
+                
+                
+                decoded_content = response.text.split('\n')
+                
+            else:
+                data = response.json()
+                print(match['api_url'])
+                content = data['content']
+                decoded_content = base64.b64decode(content).decode('utf-8').split('\n')
 
-                joined_lines = '\n'.join(decoded_content[int(match['start_line'])-1:int(match['end_line'])])
-                # fix indendation
-                joined_lines = textwrap.dedent(joined_lines)
+            joined_lines = '\n'.join(decoded_content[int(match['start_line'])-1:int(match['end_line'])])
+            # fix indendation
+            joined_lines = textwrap.dedent(joined_lines)
 
-                reply = f"""```{match['filetype']}
+            reply = f"""```{match['filetype']}
 {joined_lines}```"""
-                await message.reply(reply, mention_author=False)
+            await message.reply(reply, mention_author=False)
 
 
 client = MyClient(intents=intents)
