@@ -1,7 +1,12 @@
 # linebot
 Final project for CS50x
 
-Discord bot that grabs a URL from da discord message and returns relevant code lines from GitHub/GitLab as a code block message. 
+Discord bot that grabs a URL from da discord message and returns relevant code lines as a code block message. 
+
+Supported websites:
+ - GitHub
+ - GitLab
+ - BitBucket
 
 It analyzes the URL using regex and replies with a markdown code block, with the appropriate syntax highlighting
 
@@ -44,10 +49,11 @@ python -m pipenv run bot
 
 ## Struggles/Issues
 
-Learning how Regex works was complicated for me. I'm sure my searches can be done in a cleaner way.
+Learning how Regex works was complicated for me. I had to learn pattern matching from scratch. Learning about groups and Match.groupdict() helped me reduce a lot of code repetition.
+It was too hard for me to match URL's in a way that accounted for every special character. 
+
+I ended up using [URLExtract](https://pypi.org/project/urlextract/) to save development time.
 
 ## Future Development
 
-Adding more code repository websites. For now it only supports GitHub and GitLab.
-
-Learning how to properly use Regex instead of using mulitple matches
+Add more public source code providers
