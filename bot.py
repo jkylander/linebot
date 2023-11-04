@@ -55,7 +55,7 @@ class MyClient(discord.Client):
         print('------')
 
     async def on_message(self, message):
-        # we do not want the bot to reply to itself
+        # We do not want the bot to reply to itself
         if message.author.id == self.user.id:
             return
 
@@ -64,19 +64,21 @@ class MyClient(discord.Client):
             if not match:
                 return
             response = requests.get(match['api_url'])
+            # Error handling
+            if not response:
+                await message.reply(f"Error: {response.json()['message']}", mention_author=False)
+                return
+            # Bitbucket returns raw content, no need to decode
             if 'bitbucket' in match['api_url']:
-                
-                
                 decoded_content = response.text.split('\n')
                 
             else:
                 data = response.json()
-                print(match['api_url'])
                 content = data['content']
                 decoded_content = base64.b64decode(content).decode('utf-8').split('\n')
 
             joined_lines = '\n'.join(decoded_content[int(match['start_line'])-1:int(match['end_line'])])
-            # fix indendation
+            # Fix indendation
             joined_lines = textwrap.dedent(joined_lines)
 
             reply = f"""```{match['filetype']}
