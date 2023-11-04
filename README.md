@@ -8,13 +8,15 @@ Supported websites:
  - GitLab
  - BitBucket
 
-It analyzes the URL using regex and replies with a markdown code block, with the appropriate syntax highlighting
+It analyzes the URL using regex and replies with a markdown code block, with the appropriate syntax highlighting, if it's supported by markdown
 
 ## Usage
 
 Post any GitHub or GitLab link to a file, with the line numbers at the end like this:
 
 `https://github.com/jkylander/linebot/blob/main/bot.py#L19-L20`
+`https://bitbucket.org/rtfpessoa/bitbucket-scala-client/src/50eaaa768999c01c53e4621e990a959606440399/circle.yml#lines-1:5`
+`https://gitlab.com/magnolia1234/bypass-paywalls-firefox-clean/-/blob/master/background.js#L152-163`
 
 
 The bot will try to read the language and use syntax highlighting. The repository must be public.
