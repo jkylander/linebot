@@ -1,5 +1,7 @@
 # linebot
 Final project for CS50x
+#### Video Demo: https://www.youtube.com/watch?v=ilZD_OAC6nE
+
 
 This Discord bot is designed to fetch and highlight code from GitHub, GitLab, and Bitbucket repositories. When a user posts a URL from one of these platforms, the bot will fetch the code from the specified file and lines, then post it back to the Discord channel with syntax highlighting.
 
@@ -8,13 +10,13 @@ Supported websites:
  - GitLab
  - BitBucket
 
-## How it works
+### How it works
 
 The bot uses regular expressions to parse the URLs and extract the necessary data, such as the username, repository name, branch, file path, and line numbers. It then uses the respective platform's API to fetch the code from the specified file and lines.
 
 Once the code is fetched, it is indented properly and sent as a reply to the message with the URL. The bot uses Discord's built-in syntax highlighting feature to highlight the code in the posted message.
 
-## Usage
+### Usage
 
 Post a link to a source code file, with the line numbers at the end, like this:
 
@@ -50,7 +52,7 @@ python -m pipenv install
 ```
 DISCORD_TOKEN=NzkyNzE1NDU0MTk2MDg4ODQy.X-hvzA.Ovy4MCQywSkoMRRclStW4xAYK7I
 ```
-## Running the bot
+### Running the bot
 After installing, you can run the bot with
 ```
 python -m pipenv run bot
