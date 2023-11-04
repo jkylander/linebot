@@ -1,29 +1,36 @@
 # linebot
 Final project for CS50x
 
-Discord bot that grabs a URL from da discord message and returns relevant code lines as a code block message. 
+This Discord bot is designed to fetch and highlight code from GitHub, GitLab, and Bitbucket repositories. When a user posts a URL from one of these platforms, the bot will fetch the code from the specified file and lines, then post it back to the Discord channel with syntax highlighting.
 
 Supported websites:
  - GitHub
  - GitLab
  - BitBucket
 
-It analyzes the URL using regex and replies with a markdown code block, with the appropriate syntax highlighting, if it's supported by markdown
+## How it works
+
+The bot uses regular expressions to parse the URLs and extract the necessary data, such as the username, repository name, branch, file path, and line numbers. It then uses the respective platform's API to fetch the code from the specified file and lines.
+
+Once the code is fetched, it is indented properly and sent as a reply to the message with the URL. The bot uses Discord's built-in syntax highlighting feature to highlight the code in the posted message.
 
 ## Usage
 
-Post any GitHub or GitLab link to a file, with the line numbers at the end like this:
+Post a link to a source code file, with the line numbers at the end, like this:
 
 `https://github.com/jkylander/linebot/blob/main/bot.py#L19-L20`
+
 `https://bitbucket.org/rtfpessoa/bitbucket-scala-client/src/50eaaa768999c01c53e4621e990a959606440399/circle.yml#lines-1:5`
+
 `https://gitlab.com/magnolia1234/bypass-paywalls-firefox-clean/-/blob/master/background.js#L152-163`
 
 
 The bot will try to read the language and use syntax highlighting. The repository must be public.
 
-(https://i.imgur.com/kpUeufD.png)
+![The message the bot returns when posting a link](https://i.imgur.com/kpUeufD.png)
 
 ## Installing
+Clone this repository:
 ```
 git clone https://github.com/jkylander/linebot
 cd linebot
@@ -31,7 +38,7 @@ cd linebot
 Inside the linebot folder, install `pipenv` and the required packages with:
 ```
 python -m pip install pipenv
-python -m pipenv install --python 3.10
+python -m pipenv install
 ```
 
 ### Creating a token for the bot
@@ -58,4 +65,10 @@ I ended up using [URLExtract](https://pypi.org/project/urlextract/) to save deve
 
 ## Future Development
 
-Add more public source code providers
+* More public source code providers
+* Add a "message component" with a link to the code snippet
+
+![Discord message component](https://i.imgur.com/zmE2umk.png)
+
+### Note
+This bot is intended for educational purposes and is not affiliated with Discord, GitHub, GitLab, or Bitbucket.
